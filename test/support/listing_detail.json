@@ -74,6 +74,32 @@
           "thumbnail_url": "https://cdn.example.com/fp1-thumb.jpg"
         }
       ]
+    },
+    "interactive_content_items": {
+      "data": [
+        {
+          "object": "INTERACTIVE_CONTENT",
+          "id": "tour-1",
+          "content_type": "VIRTUAL_TOUR",
+          "display_type": "branded",
+          "media_title": "3D Tour",
+          "url": "https://www.example.com/view/abc?initialViewType=pano"
+        },
+        {
+          "object": "INTERACTIVE_CONTENT",
+          "id": "tour-2",
+          "content_type": "VIRTUAL_TOUR",
+          "display_type": "unbranded",
+          "media_title": "3D Tour",
+          "url": "https://www.example.com/view/abc?wl=true&setAttribution=mls"
+        }
+      ]
+    },
+    "property_website": {
+      "id": "pw-1",
+      "active": true,
+      "branded_url": "https://sites.example.com/100-n-cactus-rd",
+      "unbranded_url": "https://sites.example.com/100-n-cactus-rd?mls=1"
     }
   }
 }

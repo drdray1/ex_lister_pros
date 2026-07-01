@@ -64,19 +64,26 @@ defmodule ExListerPros.Listings do
   Fetches a single listing's detail page, including its media galleries.
 
   The detail page (Inertia component `Customer/Listings/EditListing`) lives at
-  `/listings/:id/edit` and carries the full `images`, `videos`, and `floorplans`
-  galleries that the index omits — the index only has a single `thumbnail_url`.
-  `id` is the listing's Aryeo id (its `id` field from the index), not the slug.
+  `/listings/:id/edit` and carries the rich media the index omits (the index only
+  has a single `thumbnail_url`). `id` is the listing's Aryeo id (its `id` field
+  from the index), not the slug.
 
-  Returns `{:ok, listing}` where `listing` is the raw listing map merged with
-  `"images"`, `"videos"`, and `"floorplans"` (each a plain list of media maps),
+  Returns `{:ok, listing}` where `listing` is the raw listing map merged with:
+
+    - `"images"`, `"videos"`, `"floorplans"` — media galleries (lists of maps)
+    - `"interactive_content_items"` — 3D/virtual tours (e.g. Zillow), each with a
+      `"url"` and `"display_type"` ("branded" / "unbranded")
+    - `"property_website"` — the listing microsite (`"branded_url"` /
+      `"unbranded_url"`, the unbranded one being MLS-friendly)
+
   or `{:error, term}`.
   """
   @spec get_listing(Session.t(), String.t(), keyword()) :: {:ok, listing()} | {:error, term()}
   def get_listing(%Session{} = session, id, _opts \\ []) do
     headers = [
       {"x-inertia-partial-component", Client.listing_detail_component()},
-      {"x-inertia-partial-data", "listing,images,videos,floorplans"}
+      {"x-inertia-partial-data",
+       "listing,images,videos,floorplans,interactive_content_items,property_website"}
     ]
 
     case Client.inertia_get(session, "/listings/#{id}/edit", headers: headers) do
@@ -151,15 +158,18 @@ defmodule ExListerPros.Listings do
     end
   end
 
-  # Merges the top-level media galleries (each wrapped in `%{"data" => [...]}`)
-  # onto the listing map so the consumer gets one self-contained listing.
+  # Merges the top-level media galleries and links onto the listing map so the
+  # consumer gets one self-contained listing. Galleries are wrapped in
+  # `%{"data" => [...]}`; `property_website` is a plain map (or null).
   defp normalize_detail(props) do
     listing = props["listing"] || %{}
 
     Map.merge(listing, %{
       "images" => unwrap_data(props["images"]),
       "videos" => unwrap_data(props["videos"]),
-      "floorplans" => unwrap_data(props["floorplans"])
+      "floorplans" => unwrap_data(props["floorplans"]),
+      "interactive_content_items" => unwrap_data(props["interactive_content_items"]),
+      "property_website" => props["property_website"]
     })
   end
 

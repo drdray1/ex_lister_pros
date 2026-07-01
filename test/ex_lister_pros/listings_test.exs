@@ -61,7 +61,7 @@ defmodule ExListerPros.ListingsTest do
                  ["Customer/Listings/EditListing"]
 
         assert Plug.Conn.get_req_header(conn, "x-inertia-partial-data") ==
-                 ["listing,images,videos,floorplans"]
+                 ["listing,images,videos,floorplans,interactive_content_items,property_website"]
 
         Req.Test.json(conn, Fixtures.listing_detail())
       end)
@@ -77,6 +77,13 @@ defmodule ExListerPros.ListingsTest do
       assert [%{"id" => "img-1"}, %{"id" => "img-2"}] = listing["images"]
       assert [%{"id" => "vid-1"}] = listing["videos"]
       assert [%{"id" => "fp-1"}] = listing["floorplans"]
+
+      # ...along with tours and the property website links.
+      assert [%{"display_type" => "branded"}, %{"display_type" => "unbranded"}] =
+               listing["interactive_content_items"]
+
+      assert %{"unbranded_url" => "https://sites.example.com/100-n-cactus-rd?mls=1"} =
+               listing["property_website"]
     end
 
     test "tolerates a listing with no galleries" do
