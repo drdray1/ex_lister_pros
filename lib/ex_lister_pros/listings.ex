@@ -61,6 +61,31 @@ defmodule ExListerPros.Listings do
   end
 
   @doc """
+  Fetches a single listing's detail page, including its media galleries.
+
+  The detail page (Inertia component `Customer/Listings/EditListing`) lives at
+  `/listings/:id/edit` and carries the full `images`, `videos`, and `floorplans`
+  galleries that the index omits — the index only has a single `thumbnail_url`.
+  `id` is the listing's Aryeo id (its `id` field from the index), not the slug.
+
+  Returns `{:ok, listing}` where `listing` is the raw listing map merged with
+  `"images"`, `"videos"`, and `"floorplans"` (each a plain list of media maps),
+  or `{:error, term}`.
+  """
+  @spec get_listing(Session.t(), String.t(), keyword()) :: {:ok, listing()} | {:error, term()}
+  def get_listing(%Session{} = session, id, _opts \\ []) do
+    headers = [
+      {"x-inertia-partial-component", Client.listing_detail_component()},
+      {"x-inertia-partial-data", "listing,images,videos,floorplans"}
+    ]
+
+    case Client.inertia_get(session, "/listings/#{id}/edit", headers: headers) do
+      {:ok, props} -> {:ok, normalize_detail(props)}
+      {:error, _} = err -> err
+    end
+  end
+
+  @doc """
   Fetches every page and returns all listings as one list.
 
   Applies the anti-bot pacing between page requests. Returns `{:error, term}` if
@@ -125,6 +150,22 @@ defmodule ExListerPros.Listings do
         err
     end
   end
+
+  # Merges the top-level media galleries (each wrapped in `%{"data" => [...]}`)
+  # onto the listing map so the consumer gets one self-contained listing.
+  defp normalize_detail(props) do
+    listing = props["listing"] || %{}
+
+    Map.merge(listing, %{
+      "images" => unwrap_data(props["images"]),
+      "videos" => unwrap_data(props["videos"]),
+      "floorplans" => unwrap_data(props["floorplans"])
+    })
+  end
+
+  defp unwrap_data(%{"data" => data}) when is_list(data), do: data
+  defp unwrap_data(data) when is_list(data), do: data
+  defp unwrap_data(_), do: []
 
   defp normalize(%{"listings" => %{"data" => data, "meta" => meta}}) do
     %{listings: data, pagination: normalize_meta(meta)}

@@ -31,4 +31,5 @@ defmodule ExListerPros do
   defdelegate list_listings(session, opts \\ []), to: Listings
   defdelegate list_all_listings(session, opts \\ []), to: Listings
   defdelegate stream_listings(session, opts \\ []), to: Listings
+  defdelegate get_listing(session, id, opts \\ []), to: Listings
 end

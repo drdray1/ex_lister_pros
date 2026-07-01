@@ -35,6 +35,13 @@ defmodule ExListerPros.Fixtures do
     |> Jason.decode!()
   end
 
+  @doc "The trimmed real listing detail (EditListing) response, with media galleries."
+  def listing_detail do
+    Path.join(__DIR__, "listing_detail.json")
+    |> File.read!()
+    |> Jason.decode!()
+  end
+
   @doc """
   Builds a listings index response for an arbitrary page, cloning the fixture's
   data and rewriting the pagination meta. Used to test multi-page walking.
