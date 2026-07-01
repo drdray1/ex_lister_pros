@@ -32,12 +32,18 @@ end
 
 # Lazily stream listings, newest first:
 session |> ExListerPros.stream_listings() |> Enum.take(20)
+
+# Full detail for one listing, including its photo/video/floorplan galleries
+# (the index only carries a single thumbnail). Pass the listing's `id`:
+{:ok, listing} = ExListerPros.get_listing(session, "aryeo-listing-id")
+listing["images"] # => [%{"original_url" => ..., "large_url" => ..., ...}, ...]
 ```
 
 Each listing is a raw map (`id`, `slug`, `address`, `delivery_status`,
 `payment_status`, `price`, `thumbnail_url`, `orders`, …). `pagination` is
 normalized to `%{current_page, last_page, per_page, total, from, to, next_page,
-prev_page}`.
+prev_page}`. `get_listing/3` additionally merges the `images`, `videos`, and
+`floorplans` galleries onto the returned listing map.
 
 ## How auth works
 

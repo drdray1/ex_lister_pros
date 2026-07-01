@@ -1,0 +1,79 @@
+{
+  "component": "Customer/Listings/EditListing",
+  "version": "testversion123",
+  "props": {
+    "listing": {
+      "object": "LISTING",
+      "id": "aryeo-listing-1",
+      "slug": "100-n-cactus-rd-sampleton-az-85001-10000001",
+      "status": "DRAFT",
+      "delivery_status": "delivered",
+      "title": null,
+      "description": "Charming sample home.",
+      "mls_number": "6789012",
+      "thumbnail_url": "https://cdn.example.com/thumb.jpeg",
+      "address": {
+        "street_number": "100",
+        "street_name": "N Cactus Rd",
+        "city": "Sampleton",
+        "state_or_province": "AZ",
+        "postal_code": "85001",
+        "unparsed_address": "100 N Cactus Rd, Sampleton, AZ 85001"
+      }
+    },
+    "images": {
+      "data": [
+        {
+          "object": "IMAGE",
+          "id": "img-1",
+          "index": 0,
+          "filename": "ListerPros_001.jpg",
+          "title": null,
+          "original_url": "https://cdn.example.com/1-original.jpg",
+          "large_url": "https://cdn.example.com/1-large.jpg",
+          "medium_url": "https://cdn.example.com/1-medium.jpg",
+          "thumbnail_url": "https://cdn.example.com/1-thumb.jpg",
+          "is_displayed": true
+        },
+        {
+          "object": "IMAGE",
+          "id": "img-2",
+          "index": 1,
+          "filename": "ListerPros_002.jpg",
+          "title": null,
+          "original_url": "https://cdn.example.com/2-original.jpg",
+          "large_url": "https://cdn.example.com/2-large.jpg",
+          "medium_url": "https://cdn.example.com/2-medium.jpg",
+          "thumbnail_url": "https://cdn.example.com/2-thumb.jpg",
+          "is_displayed": true
+        }
+      ]
+    },
+    "videos": {
+      "data": [
+        {
+          "object": "VIDEO",
+          "id": "vid-1",
+          "index": 0,
+          "title": "Video #1",
+          "thumbnail_url": "https://cdn.example.com/v1-thumb.png",
+          "playback_url": "https://cdn.example.com/v1/playback"
+        }
+      ]
+    },
+    "floorplans": {
+      "data": [
+        {
+          "object": "FLOORPLAN",
+          "id": "fp-1",
+          "index": 0,
+          "filename": "floor-1.jpg",
+          "title": "Floor 1",
+          "original_url": "https://cdn.example.com/fp1-original.jpg",
+          "large_url": "https://cdn.example.com/fp1-large.jpg",
+          "thumbnail_url": "https://cdn.example.com/fp1-thumb.jpg"
+        }
+      ]
+    }
+  }
+}

@@ -21,12 +21,18 @@ defmodule ExListerPros.Client do
   @sec_ch_ua ~s|"Chromium";v="149", "Not)A;Brand";v="24"|
   @sec_ch_ua_platform ~s|"macOS"|
 
-  # Inertia partial-reload identifiers for the customer listings index.
+  # Inertia partial-reload identifiers for the customer listings index and the
+  # single-listing detail/edit page (which carries the media galleries).
   @listings_component "Customer/Listings/IndexListing"
+  @listing_detail_component "Customer/Listings/EditListing"
 
-  @doc "The Inertia component name behind the listings page."
+  @doc "The Inertia component name behind the listings index page."
   @spec listings_component() :: String.t()
   def listings_component, do: @listings_component
+
+  @doc "The Inertia component name behind a single listing's detail/edit page."
+  @spec listing_detail_component() :: String.t()
+  def listing_detail_component, do: @listing_detail_component
 
   @doc """
   Performs a raw request for `session`, returning the full `Req.Response` (so

@@ -51,6 +51,54 @@ defmodule ExListerPros.ListingsTest do
     end
   end
 
+  describe "get_listing/3" do
+    test "requests /listings/:id/edit with the detail component and merges galleries" do
+      Req.Test.stub(@stub, fn conn ->
+        assert conn.request_path == "/listings/aryeo-listing-1/edit"
+        assert Plug.Conn.get_req_header(conn, "x-inertia") == ["true"]
+
+        assert Plug.Conn.get_req_header(conn, "x-inertia-partial-component") ==
+                 ["Customer/Listings/EditListing"]
+
+        assert Plug.Conn.get_req_header(conn, "x-inertia-partial-data") ==
+                 ["listing,images,videos,floorplans"]
+
+        Req.Test.json(conn, Fixtures.listing_detail())
+      end)
+
+      assert {:ok, listing} =
+               Listings.get_listing(Fixtures.authed_session(@stub), "aryeo-listing-1")
+
+      # The listing fields come through...
+      assert listing["id"] == "aryeo-listing-1"
+      assert listing["description"] == "Charming sample home."
+
+      # ...and the top-level galleries are unwrapped from `%{"data" => [...]}`.
+      assert [%{"id" => "img-1"}, %{"id" => "img-2"}] = listing["images"]
+      assert [%{"id" => "vid-1"}] = listing["videos"]
+      assert [%{"id" => "fp-1"}] = listing["floorplans"]
+    end
+
+    test "tolerates a listing with no galleries" do
+      Req.Test.stub(@stub, fn conn ->
+        Req.Test.json(conn, %{"props" => %{"listing" => %{"id" => "bare"}}})
+      end)
+
+      assert {:ok, listing} = Listings.get_listing(Fixtures.authed_session(@stub), "bare")
+      assert listing["id"] == "bare"
+      assert listing["images"] == []
+      assert listing["videos"] == []
+      assert listing["floorplans"] == []
+    end
+
+    test "propagates an unauthenticated error" do
+      Req.Test.stub(@stub, fn conn -> Plug.Conn.send_resp(conn, 419, "") end)
+
+      assert {:error, :unauthenticated} =
+               Listings.get_listing(Fixtures.authed_session(@stub), "x")
+    end
+  end
+
   describe "anti-detection headers" do
     test "every request looks like the captured browser session" do
       Req.Test.stub(@stub, fn conn ->
