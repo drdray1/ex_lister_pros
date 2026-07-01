@@ -1,7 +1,7 @@
 defmodule ExListerPros.MixProject do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.0.1"
   @source_url "https://github.com/drdray1/ex_lister_pros"
 
   def project do

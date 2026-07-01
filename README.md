@@ -14,7 +14,7 @@ politely, so the account is not flagged as a bot.
 ```elixir
 def deps do
   [
-    {:ex_lister_pros, git: "https://github.com/drdray1/ex_lister_pros.git", tag: "0.1.0"}
+    {:ex_lister_pros, git: "https://github.com/drdray1/ex_lister_pros.git", tag: "0.0.1"}
   ]
 end
 ```
