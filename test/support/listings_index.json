@@ -1,0 +1,100 @@
+{
+  "component": "Customer/Listings/IndexListing",
+  "version": "testversion123",
+  "props": {
+    "listings": {
+      "data": [
+        {
+          "object": "LISTING",
+          "id": "00000000-0000-7000-8000-000000000001",
+          "slug": "100-n-cactus-rd-sampleton-az-85001-10000001",
+          "delivery_status": "delivered",
+          "payment_status": "paid",
+          "fulfillment_status": "fulfilled",
+          "status": "DRAFT",
+          "type": "Single Family",
+          "sub_type": "Single Family Detached",
+          "price": {
+            "list_price": null
+          },
+          "thumbnail_url": "https://cdn.example.com/listings/100-n-cactus-rd-sampleton-az-85001-10000001/resized/thumbnail/thumbnail-00000000-0000-7000-8000-0000000000a1.jpeg",
+          "address": {
+            "street_number": "100",
+            "street_name": "N Cactus Rd",
+            "city": "Sampleton",
+            "state_or_province": "AZ",
+            "postal_code": "85001",
+            "unparsed_address": "100 N Cactus Rd, Sampleton, AZ 85001",
+            "latitude": 33.4000000,
+            "longitude": -112.0700000,
+            "timezone": "America/Phoenix"
+          },
+          "orders": [
+            {
+              "object": "ORDER",
+              "id": "00000000-0000-7000-8000-0000000000b1",
+              "number": 10001,
+              "identifier": "Order #10001",
+              "status": "open",
+              "payment_status": "paid",
+              "fulfillment_status": "fulfilled",
+              "created_at": "2026-06-23T18:51:38Z"
+            }
+          ]
+        },
+        {
+          "object": "LISTING",
+          "id": "00000000-0000-7000-8000-000000000002",
+          "slug": "200-e-mesquite-ln-demo-city-az-85002-10000002",
+          "delivery_status": "delivered",
+          "payment_status": "paid",
+          "fulfillment_status": "fulfilled",
+          "status": "DRAFT",
+          "type": "Single Family",
+          "sub_type": "Single Family Detached",
+          "price": {
+            "list_price": null
+          },
+          "thumbnail_url": "https://cdn.example.com/listings/200-e-mesquite-ln-demo-city-az-85002-10000002/resized/thumbnail/thumbnail-00000000-0000-7000-8000-0000000000a2.jpeg",
+          "address": {
+            "street_number": "200",
+            "street_name": "E Mesquite Ln",
+            "city": "Demo City",
+            "state_or_province": "AZ",
+            "postal_code": "85002",
+            "unparsed_address": "200 E Mesquite Ln, Demo City, AZ 85002",
+            "latitude": 33.2400000,
+            "longitude": -111.5900000,
+            "timezone": "America/Phoenix"
+          },
+          "orders": [
+            {
+              "object": "ORDER",
+              "id": "00000000-0000-7000-8000-0000000000b2",
+              "number": 10002,
+              "identifier": "Order #10002",
+              "status": "open",
+              "payment_status": "paid",
+              "fulfillment_status": "fulfilled",
+              "created_at": "2026-05-28T20:16:32Z"
+            }
+          ]
+        }
+      ],
+      "links": {
+        "first": "https://media.listerpros.com/listings?page=1",
+        "last": "https://media.listerpros.com/listings?page=8",
+        "prev": null,
+        "next": "https://media.listerpros.com/listings?page=2"
+      },
+      "meta": {
+        "current_page": 1,
+        "from": 1,
+        "to": 12,
+        "last_page": 8,
+        "per_page": 12,
+        "total": 92
+      }
+    }
+  }
+}
