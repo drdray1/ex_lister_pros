@@ -52,15 +52,16 @@ defmodule ExListerPros.ListingsTest do
   end
 
   describe "get_listing/3" do
-    test "requests /listings/:id/edit as a full load and merges galleries" do
+    test "requests /listings/:id/edit with the detail component and merges galleries" do
       Req.Test.stub(@stub, fn conn ->
         assert conn.request_path == "/listings/aryeo-listing-1/edit"
         assert Plug.Conn.get_req_header(conn, "x-inertia") == ["true"]
 
-        # A full component load — no partial-reload headers (which would drop
-        # galleries like floorplans).
-        assert Plug.Conn.get_req_header(conn, "x-inertia-partial-component") == []
-        assert Plug.Conn.get_req_header(conn, "x-inertia-partial-data") == []
+        assert Plug.Conn.get_req_header(conn, "x-inertia-partial-component") ==
+                 ["Customer/Listings/EditListing"]
+
+        assert Plug.Conn.get_req_header(conn, "x-inertia-partial-data") ==
+                 ["listing,images,videos,floorplans,interactive_content_items,property_website"]
 
         Req.Test.json(conn, Fixtures.listing_detail())
       end)
