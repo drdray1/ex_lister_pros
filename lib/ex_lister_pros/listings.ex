@@ -80,10 +80,13 @@ defmodule ExListerPros.Listings do
   """
   @spec get_listing(Session.t(), String.t(), keyword()) :: {:ok, listing()} | {:error, term()}
   def get_listing(%Session{} = session, id, _opts \\ []) do
-    # A full component load (like a real SPA navigation to the edit page), not a
-    # partial reload. Some galleries — notably `floorplans` — are only returned
-    # on a full visit, so requesting a partial subset silently drops them.
-    case Client.inertia_get(session, "/listings/#{id}/edit", []) do
+    headers = [
+      {"x-inertia-partial-component", Client.listing_detail_component()},
+      {"x-inertia-partial-data",
+       "listing,images,videos,floorplans,interactive_content_items,property_website"}
+    ]
+
+    case Client.inertia_get(session, "/listings/#{id}/edit", headers: headers) do
       {:ok, props} -> {:ok, normalize_detail(props)}
       {:error, _} = err -> err
     end
